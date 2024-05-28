@@ -1,21 +1,12 @@
 import React from "react";
-import Link from "next/link";
-import { useTargetNetwork } from "~~/hooks/scaffold-stark/useTargetNetwork";
-import { useGlobalState } from "~~/services/store/store";
-import { devnet } from "@starknet-react/chains";
-import { menuLinks } from "~~/components/Header";
 import Image from "next/image";
+import Link from "next/link";
+import { menuLinks } from "~~/components/Header";
 
 /**
  * Site footer
  */
 export const Footer = () => {
-  const nativeCurrencyPrice = useGlobalState(
-    (state) => state.nativeCurrencyPrice,
-  );
-  const { targetNetwork } = useTargetNetwork();
-  const isLocalNetwork = targetNetwork.id === devnet.id;
-
   return (
     <div className="min-h-0 py-5 px-1 mb-11 lg:mb-0 bg-[#8A9EA0]">
       <div className="flex w-full items-center justify-center">

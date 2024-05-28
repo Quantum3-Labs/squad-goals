@@ -4,20 +4,14 @@ import React, { useCallback, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useOutsideClick } from "~~/hooks/scaffold-stark";
+import { CustomConnectButton } from "~~/components/scaffold-stark/CustomConnectButton";
 import {
   Bars3Icon,
-  BugAntIcon,
   RocketLaunchIcon,
   SquaresPlusIcon,
   TrophyIcon,
 } from "@heroicons/react/24/outline";
-// import {
-//   FaucetButton,
-//   RainbowKitCustomConnectButton,
-// } from "~~/components/scaffold-eth";
-import { useOutsideClick } from "~~/hooks/scaffold-stark";
-import { CustomConnectButton } from "~~/components/scaffold-stark/CustomConnectButton";
-import { FaucetButton } from "~~/components/scaffold-stark/FaucetButton";
 
 type HeaderMenuLink = {
   label: string;
@@ -59,8 +53,8 @@ export const HeaderMenuLinks = () => {
                 isActive ? "border-b-2" : ""
               }   py-1.5 px-3 text-xl gap-2 flex items-center justify-center`}
             >
-              {icon}
               <span>{label}</span>
+              {icon}
             </Link>
           </div>
         );
