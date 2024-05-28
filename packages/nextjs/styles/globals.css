@@ -30,3 +30,5 @@ p {
 .btn.btn-ghost {
   @apply shadow-none;
 }
+.bg-section-1{
+  background: linear-gradient(86deg, rgba(153,176,176,1) 0%, rgba(181,178,176,1) 38%, rgba(252,250,240,1) 100%)}
