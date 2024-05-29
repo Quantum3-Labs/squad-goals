@@ -22,7 +22,7 @@ type HeaderMenuLink = {
 export const menuLinks: HeaderMenuLink[] = [
   {
     label: "app",
-    href: "/app",
+    href: "/home",
     icon: <SquaresPlusIcon className="h-4 w-4" />,
   },
   {
@@ -76,7 +76,7 @@ export const Header = () => {
 
   return (
     <div className="sticky lg:static top-0 navbar bg-base-100 min-h-0 flex-shrink-0 z-20 px-0 sm:px-2 w-full items-center flex justify-center ">
-      <div className="max-w-[1920px] w-full flex justify-between items-center">
+      <div className="max-w-[1680px] w-full flex justify-between items-center">
         <div className="navbar-start w-auto lg:w-1/2">
           <Link
             href="/"
@@ -100,8 +100,6 @@ export const Header = () => {
         <div className="navbar-end flex mr-4 items-center">
           <HeaderMenuLinks />
           <CustomConnectButton />
-
-          {/*<FaucetButton />*/}
         </div>
       </div>
     </div>

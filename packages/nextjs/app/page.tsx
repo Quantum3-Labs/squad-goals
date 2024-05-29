@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import type { NextPage } from "next";
 import {
   BugAntIcon,
@@ -21,7 +20,7 @@ const Home: NextPage = () => {
     <>
       <div className="flex items-center flex-col flex-grow ">
         <div className="bg-section-1 w-full flex justify-center">
-          <div className="flex max-w-[1920px] justify-around items-center w-full  px-5 py-10">
+          <div className="flex max-w-[1680px] justify-around items-center w-full  px-5 py-10">
             <div className="flex flex-col max-w-[440px] w-full gap-7">
               <span className="text-4xl">
                 a unique blend of blockchain technology, social community, and a

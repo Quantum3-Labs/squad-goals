@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+
 import { menuLinks } from "~~/components/Header";
-import { usePathname } from "next/navigation";
 
 /**
  * Site footer
@@ -11,7 +11,7 @@ export const Footer = () => {
   return (
     <div className="min-h-0 py-5 px-1 mb-11 lg:mb-0 bg-[#8A9EA0]">
       <div className="flex w-full items-center justify-center">
-        <div className="max-w-[1920px] w-full flex flex-col items-center justify-center">
+        <div className="max-w-[1680px] w-full flex flex-col items-center justify-center">
           <div className="flex items-center justify-center w-full gap-10">
             <div className="flex flex-col items-center justify-center font-bold text-2xl">
               <Link href="https://github.com">github</Link>

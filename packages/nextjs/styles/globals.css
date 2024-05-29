@@ -30,5 +30,18 @@ p {
 .btn.btn-ghost {
   @apply shadow-none;
 }
+
 .bg-section-1{
   background: linear-gradient(86deg, rgba(153,176,176,1) 0%, rgba(181,178,176,1) 38%, rgba(252,250,240,1) 100%)}
+.bg-app {
+  background:
+          url('/background-top.jpg') no-repeat top,
+          url('/background-bottom.jpg') no-repeat bottom,
+          #eee;
+  background-size: contain, contain, auto;
+}
+.bg-info-card{
+  background-image: url("/bg-app-section.jpg");
+  background-size: cover;
+}
+
