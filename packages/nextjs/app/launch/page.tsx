@@ -45,7 +45,7 @@ const Launch: NextPage = () => {
                   />
                 </div>
               </div>
-              <span>NFT Image</span>
+              <span className="text-xl">NFT Image</span>
               <ImageUpload onImageUpload={handleImageUpload} />
             </div>
           </div>
