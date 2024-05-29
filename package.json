@@ -32,6 +32,7 @@
     "prettier": "^3.2.5"
   },
   "dependencies": {
-    "postcss": "^8.4.38"
+    "postcss": "^8.4.38",
+    "react-dropzone": "^14.2.3"
   }
 }
