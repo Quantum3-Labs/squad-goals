@@ -34,7 +34,7 @@ const ImageUploadDropzone: React.FC<ImageUploadDropzoneProps> = ({
   return (
     <div
       {...getRootProps()}
-      className="flex flex-col items-center justify-center border-2 border-black  rounded-lg w-[190px] h-[190px] cursor-pointer"
+      className="flex flex-col items-center justify-center border-2 border-black bg-white rounded-lg w-[190px] h-[190px] cursor-pointer"
     >
       <input {...inputProps} />
       <PhotoIcon className="text-gray-500 w-16 h-16 mb-2" />
