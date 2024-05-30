@@ -11,6 +11,7 @@ import {
   RocketLaunchIcon,
   SquaresPlusIcon,
   TrophyIcon,
+  UserCircleIcon,
 } from "@heroicons/react/24/outline";
 
 type HeaderMenuLink = {
@@ -34,6 +35,11 @@ export const menuLinks: HeaderMenuLink[] = [
     label: "launch",
     href: "/launch",
     icon: <RocketLaunchIcon className="h-4 w-4" />,
+  },
+  {
+    label: "0x2f...bf23",
+    href: "/profile",
+    icon: <UserCircleIcon className="h-4 w-4" />,
   },
 ];
 
@@ -99,7 +105,7 @@ export const Header = () => {
         </div>
         <div className="navbar-end flex mr-4 items-center">
           <HeaderMenuLinks />
-          <CustomConnectButton />
+          {/*<CustomConnectButton />*/}
         </div>
       </div>
     </div>
