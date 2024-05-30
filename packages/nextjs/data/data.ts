@@ -17,3 +17,8 @@ export const categories = [
   { value: "option2", label: "Option 2" },
   { value: "option3", label: "Option 3" },
 ];
+
+export const challengesItems = Array(40).fill({
+  title: "30 Day Running",
+  src: "/eth-win-1.svg",
+});
