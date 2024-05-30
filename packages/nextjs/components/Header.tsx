@@ -8,6 +8,7 @@ import { useOutsideClick } from "~~/hooks/scaffold-stark";
 import { CustomConnectButton } from "~~/components/scaffold-stark/CustomConnectButton";
 import {
   Bars3Icon,
+  BugAntIcon,
   RocketLaunchIcon,
   SquaresPlusIcon,
   TrophyIcon,
@@ -41,6 +42,11 @@ export const menuLinks: HeaderMenuLink[] = [
     href: "/profile",
     icon: <UserCircleIcon className="h-4 w-4" />,
   },
+  {
+    label: "Debug Contracts",
+    href: "/debug",
+    icon: <BugAntIcon className="h-4 w-4" />,
+  },
 ];
 
 export const HeaderMenuLinks = () => {
@@ -57,7 +63,7 @@ export const HeaderMenuLinks = () => {
               passHref
               className={`${
                 isActive ? "border-b-4 border-black" : ""
-              }   py-1.5 px-3 text-xl gap-2 flex items-center justify-center`}
+              }   py-1.5 gap-2 text-xl flex items-center justify-center`}
             >
               <span>{label}</span>
               {icon}
@@ -82,8 +88,8 @@ export const Header = () => {
 
   return (
     <div className="sticky lg:static top-0 navbar bg-base-100 min-h-0 flex-shrink-0 z-20 px-0 sm:px-2 w-full items-center flex justify-center ">
-      <div className="max-w-[1680px] w-full flex justify-between items-center">
-        <div className="navbar-start w-auto lg:w-1/2">
+      <div className="max-w-[1680px] w-full flex justify-between items-center ">
+        <div className="lg:w-1/2">
           <Link
             href="/"
             passHref
@@ -103,9 +109,9 @@ export const Header = () => {
             </div>
           </Link>
         </div>
-        <div className="navbar-end flex mr-4 items-center">
+        <div className="flex mr-4 items-center justify-end gap-4 w-full">
           <HeaderMenuLinks />
-          {/*<CustomConnectButton />*/}
+          <CustomConnectButton />
         </div>
       </div>
     </div>
