@@ -50,7 +50,7 @@ export const HeaderMenuLinks = () => {
               href={href}
               passHref
               className={`${
-                isActive ? "border-b-2" : ""
+                isActive ? "border-b-4 border-black" : ""
               }   py-1.5 px-3 text-xl gap-2 flex items-center justify-center`}
             >
               <span>{label}</span>

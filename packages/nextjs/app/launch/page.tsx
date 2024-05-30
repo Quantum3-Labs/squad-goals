@@ -10,7 +10,7 @@ const Launch: NextPage = () => {
   return (
     <>
       <div className="flex items-center w-full flex-col">
-        <div className="bg-info-card flex w-full justify-center">
+        <div className="bg-app flex w-full justify-center">
           <div className="max-w-[1680px] h-full p-10 w-full flex flex-col">
             <div className=" pb-10">
               <span className="text-4xl">Launch Your Own Challenge</span>
