@@ -21,6 +21,7 @@ pub trait ISquadGoals<TContractState> {
     fn get_challenge_stakers(self: @TContractState, challenge_id: u256) -> Span<ContractAddress> ;
     fn get_challenge_data(self: @TContractState, challenge_id: u256) -> (u256, u256, u256, bool);
     fn get_challenge_cid(self: @TContractState, challenge_id: u256) -> ByteArray;
+    fn get_challenge_counter(self: @TContractState) -> u256;
 }
 
 #[starknet::contract]
@@ -169,7 +170,10 @@ use openzeppelin::access::ownable::OwnableComponent;
             });
         }
 
-
+        fn get_challenge_counter(self: @ContractState) -> u256 {
+            self.challenge_counter.read()
+        }
+        
         // this works and will currently return a list of span of contract addresses
         fn get_challenge_stakers(self: @ContractState, challenge_id: u256) -> Span<ContractAddress> {
             self._get_challenge_stakers(challenge_id)
@@ -310,9 +314,6 @@ use openzeppelin::access::ownable::OwnableComponent;
         }
         fn _get_challenge_balance(self: @ContractState, challenge_id: u256) -> u256 {
             self.challenge_balance.read(challenge_id)
-        }
-        fn _get_challenge_counter(self: @ContractState) -> u256 {
-            self.challenge_counter.read()
         }
 
     }
