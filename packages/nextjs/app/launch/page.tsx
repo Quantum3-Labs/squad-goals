@@ -5,6 +5,8 @@ import { create } from 'kubo-rpc-client'; // Importa kubo-rpc-client
 import ChallengeInput from "~~/app/launch/_components/ChallengeInput";
 import ImageUploadDropzone from "~~/app/launch/_components/ImageUpload";
 import { useScaffoldMultiWriteContract } from "~~/hooks/scaffold-stark/useScaffoldMultiWriteContract";
+import { useDeployedContractInfo } from "~~/hooks/scaffold-stark";
+import { multiplyTo1e18 } from "~~/utils/scaffold-stark/priceinWei";
 
 const PROJECT_ID = "2GajDLTC6y04qsYsoDRq9nGmWwK";
 const PROJECT_SECRET = "48c62c6b3f82d2ecfa2cbe4c90f97037";
@@ -24,6 +26,8 @@ const Launch: NextPage = () => {
   const [description, setDescription] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [uploadedCID, setUploadedCID] = useState<string | null>(null); 
+  const [ Ethstake , setEthStake ] = useState("")
+  const [ duration , setDuration ] = useState(0)
 
 
   const handleImageUpload = (file: File) => {
@@ -35,9 +39,36 @@ const Launch: NextPage = () => {
     setName(e.target.value);
   };
 
+  const handleEthStake = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // console.log(e.target.value)
+    setEthStake(e.target.value);
+  };
+
+  const handleDuration = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value)
+    setDuration(e.target.value);
+  };
+
   const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
   };
+
+  const { data: contractData } = useDeployedContractInfo("YourContract");
+
+   const { writeAsync: stake } = useScaffoldMultiWriteContract({
+     calls: [
+       {
+         contractName: "Eth",
+         functionName: "approve",
+         args: [contractData?.address??"", multiplyTo1e18(Ethstake)],
+       },
+       {
+         contractName: "YourContract",
+         functionName: "create_challenge",
+        args: [multiplyTo1e18(Ethstake), duration,uploadedCID ?? ""],
+      },
+     ],
+   });
 
   const handleSubmit = async () => {
     if (!name || !description || !imageFile) {
@@ -59,26 +90,26 @@ const Launch: NextPage = () => {
       console.log('Data uploaded to IPFS:', addedData);
       setUploadedCID(addedData.path); 
       alert(`Data uploaded to IPFS: https://ipfs.infura.io/ipfs/${addedData.path}`);
+      await stake()
     } catch (error) {
       console.error('Error uploading to IPFS:', error);
       alert('Error uploading to IPFS');
     }
   };
 
-  // const { writeAsync: buy } = useScaffoldMultiWriteContract({
-  //   calls: [
-  //     {
-  //       contractName: "Eth",
-  //       functionName: "approve",
-  //       args: [],
-  //     },
-  //     {
-  //       contractName: "YourContract",
-  //       functionName: "create_challenge",
-  //       args: [uploadedCID ?? ""],
-  //     },
-  //   ],
-  // });
+
+
+   const wrapInTryCatch =
+   (fn: () => Promise<any>, errorMessageFnDescription: string) => async () => {
+     try {
+       await fn();
+     } catch (error) {
+       console.error(
+         `Error calling ${errorMessageFnDescription} function`,
+         error,
+       );
+     }
+   };
 
 
   return (
@@ -110,10 +141,14 @@ const Launch: NextPage = () => {
                   <ChallengeInput
                     name="duration"
                     placeholder="how long the challenge is open in days"
+                    value={String(duration)}
+                    onChange={handleDuration}
                   />
                   <ChallengeInput
                     name="ETH Stake"
                     placeholder="Required deposit to participate, e.g. 0.05 ETH"
+                    value={Ethstake}
+                    onChange={handleEthStake}
                   />
                 </div>
               </div>
