@@ -6,6 +6,7 @@ interface ChallengeCardProps {
   description: string;
   stake: string;
   spotsFilled: string;
+  image: string;
 }
 
 const ChallengeCard: React.FC<ChallengeCardProps> = ({
@@ -13,11 +14,12 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
   description,
   stake,
   spotsFilled,
+  image
 }) => {
   return (
     <div className="max-w-[403px] flex w-full bg-[#BBD4FA] rounded-xl justify-center gap-3 p-3 items-center shadow-md">
       <Image
-        src="/eth-win-1.svg"
+        src={image}
         alt="winner-challenges"
         width={115}
         height={115}

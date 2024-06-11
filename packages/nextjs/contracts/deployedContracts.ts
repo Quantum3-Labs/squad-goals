@@ -4,6 +4,366 @@
  */
 
 const deployedContracts = {
+  devnet: {
+    YourContract: {
+      address:
+        "0x01519b8cc860ce667f2f1188bc1d3cdf7464c1862a9baeaecff93602d9efbe73",
+      abi: [
+        {
+          type: "impl",
+          name: "ISquadGoalsImpl",
+          interface_name: "contracts::YourContract::ISquadGoals",
+        },
+        {
+          type: "struct",
+          name: "core::integer::u256",
+          members: [
+            {
+              name: "low",
+              type: "core::integer::u128",
+            },
+            {
+              name: "high",
+              type: "core::integer::u128",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "core::byte_array::ByteArray",
+          members: [
+            {
+              name: "data",
+              type: "core::array::Array::<core::bytes_31::bytes31>",
+            },
+            {
+              name: "pending_word",
+              type: "core::felt252",
+            },
+            {
+              name: "pending_word_len",
+              type: "core::integer::u32",
+            },
+          ],
+        },
+        {
+          type: "enum",
+          name: "core::bool",
+          variants: [
+            {
+              name: "False",
+              type: "()",
+            },
+            {
+              name: "True",
+              type: "()",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "core::array::Span::<(core::starknet::contract_address::ContractAddress, core::bool)>",
+          members: [
+            {
+              name: "snapshot",
+              type: "@core::array::Array::<(core::starknet::contract_address::ContractAddress, core::bool)>",
+            },
+          ],
+        },
+        {
+          type: "struct",
+          name: "core::array::Span::<core::starknet::contract_address::ContractAddress>",
+          members: [
+            {
+              name: "snapshot",
+              type: "@core::array::Array::<core::starknet::contract_address::ContractAddress>",
+            },
+          ],
+        },
+        {
+          type: "interface",
+          name: "contracts::YourContract::ISquadGoals",
+          items: [
+            {
+              type: "function",
+              name: "create_challenge",
+              inputs: [
+                {
+                  name: "stake_amount",
+                  type: "core::integer::u256",
+                },
+                {
+                  name: "duration",
+                  type: "core::integer::u256",
+                },
+                {
+                  name: "cid",
+                  type: "core::byte_array::ByteArray",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "join_challenge",
+              inputs: [
+                {
+                  name: "challenge_id",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "complete_challenge",
+              inputs: [
+                {
+                  name: "challenge_id",
+                  type: "core::integer::u256",
+                },
+                {
+                  name: "users_completed",
+                  type: "core::array::Span::<(core::starknet::contract_address::ContractAddress, core::bool)>",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "get_challenge_stakers",
+              inputs: [
+                {
+                  name: "challenge_id",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::array::Span::<core::starknet::contract_address::ContractAddress>",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_challenge_data",
+              inputs: [
+                {
+                  name: "challenge_id",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "(core::integer::u256, core::integer::u256, core::integer::u256, core::bool)",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_challenge_cid",
+              inputs: [
+                {
+                  name: "challenge_id",
+                  type: "core::integer::u256",
+                },
+              ],
+              outputs: [
+                {
+                  type: "core::byte_array::ByteArray",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "get_challenge_counter",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::integer::u256",
+                },
+              ],
+              state_mutability: "view",
+            },
+          ],
+        },
+        {
+          type: "impl",
+          name: "OwnableImpl",
+          interface_name: "openzeppelin::access::ownable::interface::IOwnable",
+        },
+        {
+          type: "interface",
+          name: "openzeppelin::access::ownable::interface::IOwnable",
+          items: [
+            {
+              type: "function",
+              name: "owner",
+              inputs: [],
+              outputs: [
+                {
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              state_mutability: "view",
+            },
+            {
+              type: "function",
+              name: "transfer_ownership",
+              inputs: [
+                {
+                  name: "new_owner",
+                  type: "core::starknet::contract_address::ContractAddress",
+                },
+              ],
+              outputs: [],
+              state_mutability: "external",
+            },
+            {
+              type: "function",
+              name: "renounce_ownership",
+              inputs: [],
+              outputs: [],
+              state_mutability: "external",
+            },
+          ],
+        },
+        {
+          type: "constructor",
+          name: "constructor",
+          inputs: [
+            {
+              name: "owner",
+              type: "core::starknet::contract_address::ContractAddress",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin::access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin::access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+          kind: "struct",
+          members: [
+            {
+              name: "previous_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+            {
+              name: "new_owner",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "key",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "openzeppelin::access::ownable::ownable::OwnableComponent::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnershipTransferred",
+              type: "openzeppelin::access::ownable::ownable::OwnableComponent::OwnershipTransferred",
+              kind: "nested",
+            },
+            {
+              name: "OwnershipTransferStarted",
+              type: "openzeppelin::access::ownable::ownable::OwnableComponent::OwnershipTransferStarted",
+              kind: "nested",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::YourContract::YourContract::ChallengeCreated",
+          kind: "struct",
+          members: [
+            {
+              name: "id",
+              type: "core::integer::u256",
+              kind: "key",
+            },
+            {
+              name: "stake_amount",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+            {
+              name: "deadline",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::YourContract::YourContract::ChallengeJoined",
+          kind: "struct",
+          members: [
+            {
+              name: "id",
+              type: "core::integer::u256",
+              kind: "key",
+            },
+            {
+              name: "user",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+            {
+              name: "time_joined",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::YourContract::YourContract::Event",
+          kind: "enum",
+          variants: [
+            {
+              name: "OwnableEvent",
+              type: "openzeppelin::access::ownable::ownable::OwnableComponent::Event",
+              kind: "flat",
+            },
+            {
+              name: "ChallengeCreated",
+              type: "contracts::YourContract::YourContract::ChallengeCreated",
+              kind: "nested",
+            },
+            {
+              name: "ChallengeJoined",
+              type: "contracts::YourContract::YourContract::ChallengeJoined",
+              kind: "nested",
+            },
+          ],
+        },
+      ],
+    },
+  },
 } as const;
 
 export default deployedContracts;
