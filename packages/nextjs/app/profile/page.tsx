@@ -6,17 +6,22 @@ import { challenges, challengesItems } from "~~/data/data";
 import ChallengeCard from "~~/app/home/_components/ChallengeCard";
 import Stats from "~~/app/profile/_components/Stats";
 import { CardItem } from "~~/app/profile/_components/CardItem";
+import { useAccount } from "@starknet-react/core";
+import { useScaffoldReadContract } from "~~/hooks/scaffold-stark/useScaffoldReadContract";
+import { uint256 } from "starknet";
+import { useEffect } from "react";
+import { useScaffoldEventHistory } from "~~/hooks/scaffold-stark/useScaffoldEventHistory";
 
 const profile: NextPage = () => {
+  const { address } = useAccount();
+
   return (
     <>
-      <div className="flex items-center w-full flex-col">
+      <div className="flex items-center w-full flex-col text-black">
         <div className="bg-app flex w-full justify-center items-center flex-col">
           <div className="max-w-[1680px] h-full p-10 w-full flex flex-col gap-10">
             <div className="flex items-center justify-center pb-10">
-              <span className="text-4xl font-bold">
-                0x7b86F576669f8d20a8244dABEFc65b31d7dEB3f2
-              </span>
+              <span className="text-xl font-bold">{address}</span>
             </div>
             <div className="flex justify-around items-center py-10 ">
               <Stats
@@ -39,7 +44,7 @@ const profile: NextPage = () => {
                 <div className="flex flex-col items-center justify-center gap-2">
                   <span>2.3 ETH</span>
                   <span className="text-2xl">
-                    Earned from Authored Challanges
+                    Earned from Authored Challenges
                   </span>
                 </div>
               </div>

@@ -1,13 +1,12 @@
 "use client";
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ChallengeInput from "~~/app/launch/_components/ChallengeInput";
 import ImageUploadDropzone from "~~/app/launch/_components/ImageUpload";
 import { useScaffoldMultiWriteContract } from "~~/hooks/scaffold-stark/useScaffoldMultiWriteContract";
 import { useDeployedContractInfo } from "~~/hooks/scaffold-stark";
 import { multiplyTo1e18 } from "~~/utils/scaffold-stark/priceinWei";
-import { ipfsClient } from "./api/ipfs";
-import { useCID } from "~~/components/CIDContext"; 
+import { addToIPFS, uploadImage } from "~~/utils/ipfs-fetch";
 
 const Launch: NextPage = () => {
   const [name, setName] = useState("");
@@ -16,10 +15,24 @@ const Launch: NextPage = () => {
   const [uploadedCID, setUploadedCID] = useState<string | null>(null); 
   const [Ethstake, setEthStake] = useState("");
   const [duration, setDuration] = useState(0);
-  const { uploadedCIDs, addCID } = useCID(); 
+  const { data: contractData } = useDeployedContractInfo("YourContract");
+
+  const { writeAsync: createChallenge } = useScaffoldMultiWriteContract({
+    calls: [
+      {
+        contractName: "Eth",
+        functionName: "approve",
+        args: [contractData?.address ?? "", multiplyTo1e18(Ethstake)],
+      },
+      {
+        contractName: "YourContract",
+        functionName: "create_challenge",
+        args: [multiplyTo1e18(Ethstake), duration, uploadedCID ?? ""],
+      },
+    ],
+  });
 
   const handleImageUpload = (file: File) => {
-    console.log("Uploaded file:", file);
     setImageFile(file);
   };
 
@@ -39,22 +52,6 @@ const Launch: NextPage = () => {
     setDescription(e.target.value);
   };
 
-  const { data: contractData } = useDeployedContractInfo("YourContract");
-
-  const { writeAsync: stake } = useScaffoldMultiWriteContract({
-    calls: [
-      {
-        contractName: "Eth",
-        functionName: "approve",
-        args: [contractData?.address ?? "", multiplyTo1e18(Ethstake)],
-      },
-      {
-        contractName: "YourContract",
-        functionName: "create_challenge",
-        args: [multiplyTo1e18(Ethstake), duration, uploadedCID ?? ""],
-      },
-    ],
-  });
 
   const handleSubmit = async () => {
     if (!name || !description || !imageFile) {
@@ -63,27 +60,33 @@ const Launch: NextPage = () => {
     }
 
     try {
-      const addedImage = await ipfsClient.add(imageFile);
-
+      const addedImage = await uploadImage(imageFile);
+      
       const data = {
         name,
         description,
-        image: `https://ipfs.infura.io/ipfs/${addedImage.path}`,
+        image: addedImage.path,
       };
-
-      const addedData = await ipfsClient.add({ content: JSON.stringify(data) });
-
+      
+      const addedData = await addToIPFS(data);
+      
       console.log('Data uploaded to IPFS:', addedData);
-      setUploadedCID(addedData.path);
-      addCID(addedData.path); 
-
+      
       alert(`Data uploaded to IPFS: https://ipfs.infura.io/ipfs/${addedData.path}`);
-      await stake();
+      setUploadedCID(addedData.path);
     } catch (error) {
       console.error('Error uploading to IPFS:', error);
       alert('Error uploading to IPFS');
     }
   };
+
+  useEffect(() => {
+    if (uploadedCID) {
+      createChallenge().then(() => {
+        console.log("Challenge created");
+      });
+    }
+  }, [uploadedCID]);
 
   return (
     <>

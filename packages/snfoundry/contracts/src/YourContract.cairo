@@ -57,6 +57,7 @@ use openzeppelin::access::ownable::OwnableComponent;
         id: u256,
         stake_amount: u256,
         deadline: u256,
+        cid: ByteArray
     }
 
 
@@ -122,13 +123,14 @@ use openzeppelin::access::ownable::OwnableComponent;
             self.challenge_has_joined.write((challenge_counter, get_caller_address()), true);
             self.challenge_deadline.write(challenge_counter, current_timestamp + duration);
             self.challenge_counter.write(challenge_counter + 1);
-            self.challenge_cid.write(challenge_counter, cid);
+            self.challenge_cid.write(challenge_counter, cid.clone());
             self.challenge_staker_count.write(challenge_counter, challenge_staker_counter + 1);
 
             self.emit(ChallengeCreated {
                 id: challenge_counter,
                 stake_amount: stake_amount,
                 deadline: current_timestamp + duration,
+                cid,
             });
             self.emit(ChallengeJoined {
                 id: challenge_counter,

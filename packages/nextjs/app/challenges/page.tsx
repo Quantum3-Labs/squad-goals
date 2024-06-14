@@ -10,8 +10,9 @@ import { useScaffoldReadContract } from "~~/hooks/scaffold-stark/useScaffoldRead
 import { useEffect, useState} from "react";
 import { useScaffoldContract } from "~~/hooks/scaffold-stark/useScaffoldContract";
 import { useAccount } from "@starknet-react/core";
-import { getNFTMetadataFromIPFS } from "../launch/api/ipfs";
+import { getNFTMetadataFromIPFS } from "../../utils/ipfs";
 import { useCID } from "~~/components/CIDContext";
+import { useScaffoldEventHistory } from "~~/hooks/scaffold-stark/useScaffoldEventHistory";
 
 const Challenges: NextPage = () => {
 
@@ -68,12 +69,16 @@ const Challenges: NextPage = () => {
   });
 
 console.log(challenge)
-  const { data: challengeCid } = useScaffoldReadContract({
-    contractName: "YourContract",
-    functionName: "get_challenge_cid",
-    args: [0],
-  });
 
+  const {data: events} = useScaffoldEventHistory({
+    contractName: "YourContract",
+    eventName: "contracts::YourContract::YourContract::ChallengeCreated",
+    fromBlock: 0n,
+  });
+  
+    useEffect(() => {
+      console.log(events);
+    }, [events]);
 
 
   const [metadataList, setMetadataList] = useState<any[]>([]);
