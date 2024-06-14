@@ -38,7 +38,7 @@ export const menuLinks: HeaderMenuLink[] = [
     icon: <RocketLaunchIcon className="h-4 w-4" />,
   },
   {
-    label: "0x2f...bf23",
+    label: "Profile",
     href: "/profile",
     icon: <UserCircleIcon className="h-4 w-4" />,
   },

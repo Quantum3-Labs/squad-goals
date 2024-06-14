@@ -7,7 +7,7 @@ const deployedContracts = {
   devnet: {
     YourContract: {
       address:
-        "0x01519b8cc860ce667f2f1188bc1d3cdf7464c1862a9baeaecff93602d9efbe73",
+        "0x042de5a4507b0e5a23832bd504d05aa410870520992fea74bae9492c013c4cf5",
       abi: [
         {
           type: "impl",
@@ -313,6 +313,11 @@ const deployedContracts = {
             {
               name: "deadline",
               type: "core::integer::u256",
+              kind: "data",
+            },
+            {
+              name: "cid",
+              type: "core::byte_array::ByteArray",
               kind: "data",
             },
           ],

@@ -5,7 +5,6 @@ interface ChallengeCardProps {
   title: string;
   description: string;
   stake: string;
-  spotsFilled: string;
   image: string;
 }
 
@@ -13,7 +12,6 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
   title,
   description,
   stake,
-  spotsFilled,
   image
 }) => {
   return (
@@ -29,7 +27,7 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
         <span className="">{description}</span>
         <div className="flex gap-3">
           <span className="font-bold">stake: {stake}</span>
-          <span>{spotsFilled}/7 spots filled</span>
+          <span>2/7 spots filled</span>
         </div>
         <div className="flex justify-center gap-2">
           <button className="bg-[#FFB1AC] py-1 px-5 rounded-full shadow-md">

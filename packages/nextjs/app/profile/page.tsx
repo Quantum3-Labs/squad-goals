@@ -80,7 +80,7 @@ const profile: NextPage = () => {
                     title={challenge.title}
                     description={challenge.description}
                     stake={challenge.stake}
-                    spotsFilled={challenge.spotsFilled}
+                    image={challenge}
                   />
                 ))}
               </div>
@@ -94,7 +94,6 @@ const profile: NextPage = () => {
                     title={challenge.title}
                     description={challenge.description}
                     stake={challenge.stake}
-                    spotsFilled={challenge.spotsFilled}
                   />
                 ))}
               </div>

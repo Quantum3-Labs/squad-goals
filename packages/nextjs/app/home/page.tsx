@@ -5,11 +5,46 @@ import { categories, challenges } from "~~/data/data";
 import { CategorySelect } from "~~/app/home/_components/CategorySelect";
 import { SearchBar } from "~~/app/home/_components/SearchBar";
 import { InfoCard } from "~~/app/home/_components/InfoCard";
+import { getNFTMetadataFromIPFS } from "../../utils/ipfs";
+import { useScaffoldEventHistory } from "~~/hooks/scaffold-stark/useScaffoldEventHistory";
+import { formatEther } from "ethers";
+import { useEffect, useState} from "react";
 
 const App: NextPage = () => {
+  const [challenges, setChallenges] = useState<any[]>([]);
+
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.value);
   };
+
+  const {data: events} = useScaffoldEventHistory({
+    contractName: "YourContract",
+    eventName: "contracts::YourContract::YourContract::ChallengeCreated",
+    fromBlock: 0n,
+  });
+   console.log(events)
+   useEffect(() => {
+    const fetchChallenges = async () => {
+      if (!events) return;
+
+      const challengesData = await Promise.all(events.map(async (event) => {
+        const cid = event.args.cid;
+        try {
+          const metadata = await getNFTMetadataFromIPFS(cid);
+          return {
+            ...metadata,
+            ...event.args, 
+          };
+        } catch (error) {
+          console.error(`Error fetching metadata for CID ${cid}:`, error);
+          return null;
+        }
+      }));
+      setChallenges(challengesData.filter(Boolean));
+    };
+
+    fetchChallenges();
+  }, [events]);
   return (
     <>
       <div className="flex items-center w-full flex-col">
@@ -23,14 +58,14 @@ const App: NextPage = () => {
               <CategorySelect categories={categories} />
             </div>
             <div className="max-h-[1040px] overflow-y-auto flex flex-wrap justify-center gap-5 py-10">
-              {challenges.map((challenge, index) => (
-                <ChallengeCard
-                  key={index}
-                  title={challenge.title}
-                  description={challenge.description}
-                  stake={challenge.stake}
-                  spotsFilled={challenge.spotsFilled}
-                />
+            {challenges.map((challenge, index) => (          
+                  <ChallengeCard
+                    image={challenge.image.base64}
+                    key={index}
+                    title={challenge.name}
+                    description={challenge.description}
+                    stake={formatEther(challenge.stake_amount)}
+                  />              
               ))}
             </div>
           </div>
@@ -45,14 +80,14 @@ const App: NextPage = () => {
               <CategorySelect categories={categories} />
             </div>
             <div className="max-h-[1040px] overflow-y-auto flex flex-wrap justify-center gap-5 py-10">
-              {challenges.map((challenge, index) => (
-                <ChallengeCard
-                  key={index}
-                  title={challenge.title}
-                  description={challenge.description}
-                  stake={challenge.stake}
-                  spotsFilled={challenge.spotsFilled}
-                />
+            {challenges.map((challenge, index) => (          
+                  <ChallengeCard
+                    image={challenge.image.base64}
+                    key={index}
+                    title={challenge.name}
+                    description={challenge.description}
+                    stake={formatEther(challenge.stake_amount)}
+                  />              
               ))}
             </div>
           </div>
