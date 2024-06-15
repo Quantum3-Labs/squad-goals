@@ -9,7 +9,7 @@ import ChallengeCard from "~~/app/home/_components/ChallengeCard";
 import { useEffect, useState} from "react";
 import { getNFTMetadataFromIPFS } from "../../utils/ipfs";
 import { useScaffoldEventHistory } from "~~/hooks/scaffold-stark/useScaffoldEventHistory";
-import { formatEther } from "ethers";
+
 import { metadata } from "../layout";
 const Challenges: NextPage = () => {
 
@@ -71,8 +71,10 @@ const Challenges: NextPage = () => {
 
       const challengesData = await Promise.all(events.map(async (event) => {
         const cid = event.args.cid;
+        console.log(cid)
         try {
           const metadata = await getNFTMetadataFromIPFS(cid);
+          console.log(metadata)
           return {
             ...metadata,
             ...event.args, 
@@ -88,7 +90,7 @@ const Challenges: NextPage = () => {
     fetchChallenges();
   }, [events]);
 
-  console.log(challenges)
+console.log(challenges)
   return (
     <>
       <div className="flex items-center w-full flex-col">
@@ -134,15 +136,20 @@ const Challenges: NextPage = () => {
             <div className="py-10">
               <span className="py-10">Open Challenges</span>
               <div className="max-h-[500px] overflow-y-auto flex flex-wrap justify-center gap-5 py-10 w-full mt-10">
-              {challenges.map((challenge, index) => (      
+              {challenges.map((challenge, index) => {
+                return(
+                  (      
                     <ChallengeCard
                       image={challenge}
+                      id= {challenge.id}
                       key={index}
                       title={challenge.name}
                       description={challenge.description}
-                      stake={formatEther(challenge.stake_amount)}
+                      stake={challenge.stake_amount}
                     />       
                 ))}
+                )
+              }
               </div>
             </div>
             <div className="py-10">
@@ -150,11 +157,12 @@ const Challenges: NextPage = () => {
               <div className="max-h-[500px] overflow-y-auto flex flex-wrap justify-center gap-5 py-10 w-full mt-10">
               {challenges.map((challenge, index) => (          
                   <ChallengeCard
-                    image={challenge.image.base64}
+                    image={challenge}
+                    id= {challenge.id}
                     key={index}
                     title={challenge.name}
                     description={challenge.description}
-                    stake={formatEther(challenge.stake_amount)}
+                    stake={challenge.stake_amount}
                   />              
               ))}
               </div>

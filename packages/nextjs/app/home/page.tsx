@@ -60,7 +60,8 @@ const App: NextPage = () => {
             <div className="max-h-[1040px] overflow-y-auto flex flex-wrap justify-center gap-5 py-10">
             {challenges.map((challenge, index) => (          
                   <ChallengeCard
-                    image={challenge.image.base64}
+                    image={challenge.image}
+                    id={challenge.id}
                     key={index}
                     title={challenge.name}
                     description={challenge.description}
@@ -82,7 +83,8 @@ const App: NextPage = () => {
             <div className="max-h-[1040px] overflow-y-auto flex flex-wrap justify-center gap-5 py-10">
             {challenges.map((challenge, index) => (          
                   <ChallengeCard
-                    image={challenge.image.base64}
+                    image={challenge.image}
+                    id={challenge.id}
                     key={index}
                     title={challenge.name}
                     description={challenge.description}
