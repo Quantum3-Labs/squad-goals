@@ -49,6 +49,7 @@ use openzeppelin::access::ownable::OwnableComponent;
         OwnableEvent: OwnableComponent::Event,
         ChallengeCreated: ChallengeCreated,
         ChallengeJoined: ChallengeJoined,
+        ChallengeCompleted: ChallengeCompleted,
     }
 
     #[derive(Drop, starknet::Event)]
@@ -67,6 +68,14 @@ use openzeppelin::access::ownable::OwnableComponent;
         id: u256,
         user: ContractAddress,
         time_joined: u256,
+    }
+
+    #[derive(Drop, starknet::Event)]
+    struct ChallengeCompleted {
+        #[key]
+        id: u256,
+        user: ContractAddress,
+        time_completed: u256,
     }
 
     #[storage]
@@ -225,6 +234,12 @@ use openzeppelin::access::ownable::OwnableComponent;
             self.challenge_submission_count.write(challenge_id, self.challenge_submission_count.read(challenge_id) + 1);
 
             self._complete_challenge(challenge_id);
+
+            self.emit(ChallengeCompleted {
+                id: challenge_id,
+                user: get_caller_address(),
+                time_completed: current_timestamp,
+            });
         }
     }
 
