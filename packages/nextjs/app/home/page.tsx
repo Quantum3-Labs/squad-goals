@@ -22,7 +22,7 @@ const App: NextPage = () => {
     eventName: "contracts::YourContract::YourContract::ChallengeCreated",
     fromBlock: 0n,
   });
-  console.log(events);
+  
   useEffect(() => {
     const fetchChallenges = async () => {
       if (!events) return;
@@ -67,7 +67,7 @@ const App: NextPage = () => {
                   key={index}
                   title={challenge.name}
                   description={challenge.description}
-                  stake={formatEther(challenge.stake_amount)}
+                  stake={challenge.stake_amount}
                 />
               ))}
             </div>
@@ -90,7 +90,7 @@ const App: NextPage = () => {
                   key={index}
                   title={challenge.name}
                   description={challenge.description}
-                  stake={formatEther(challenge.stake_amount)}
+                  stake={challenge.stake_amount}
                 />
               ))}
             </div>

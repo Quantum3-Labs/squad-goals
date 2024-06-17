@@ -1,21 +1,16 @@
-# 🏗 Scaffold-Stark 2
+# 🎯 Squad Goals
 
-<h4 align="center">
-  <a href="https://www.docs.scaffoldstark.com/">Documentation</a> |
-  <a href="https://www.scaffoldstark.com/">Website</a>
-</h4>
+🚀 Squad Goals is a unique blend of blockchain technology, social community, and a game-like system designed to promote self-improvement and growth through collaborative and competitive challenges.
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on Starknet blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
+⚙️ Built using NextJS, Ethereum Smart Contracts, and Typescript.
 
-⚙️ Built using NextJS, Starknet.js, Scarb, Starknet-React, Starknet Foundry and Typescript.
+- ✅ **SMART Goals**: Small groups, or squads, of 2-7 people set specific, measurable, achievable, relevant, and time-bound (SMART) goals.
+- 🪙 **Crypto Staking**: Each person stakes an amount of ETH cryptocurrency. The crypto is locked in the smart contract until the deadline is reached.
+- 🏅 **Accountability and Verification**: Each member vouches for others at the deadline. If the majority confirms goal achievement, they reclaim their stake and earn a Challenge NFT.
+- 💔 **Stake Distribution**: If the goal is not met, 90% of the stake goes to the protocol treasury and 10% to the challenge creator.
 
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🪝 **[Custom hooks]()**: Collection of React hooks wrapper around [starknet-react](https://starknet-react.com/) to simplify interactions with smart contracts with typescript autocompletion.
-- 🧱 [**Components**](): Collection of common web3 components to quickly build your frontend.
-- 🔥 **Burner Wallet & Prefunded Account**: Quickly test your application with a burner wallet and prefunded accounts.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with Starknet network.
 
-![Debug Contracts tab](./assests/debug-contracts.png)
+![Squad Goals Interface](./assets/squad-goals-interface.png)
 
 ## Requirements
 
@@ -98,13 +93,13 @@ If your Starknet Foundry version is not `0.23.0`, you need to install it.
 
 ## Quickstart
 
-To get started with Scaffold-Stark 2, follow the steps below:
+To get started with Squad Goals, follow the steps below:
 
 1. Clone this repo and install dependencies
 
 ```bash
-git clone https://github.com/Quantum3-Labs/scaffold-stark-2 --recurse-submodules
-cd scaffold-stark-2
+git clone https://github.com/Quantum3-Labs/squad-goals --recurse-submodules
+cd squad-goals
 yarn install
 ```
 
@@ -146,21 +141,9 @@ yarn start
 
 Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
 
-**What's next**:
+## Contributing to Squad Goals
 
-- Edit your smart contract `YourContract.cairo` in `packages/snfoundry/contracts/src`
-- Edit your frontend homepage at `packages/nextjs/app/page.tsx`. For guidance on [routing](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) and configuring [pages/layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts) checkout the Next.js documentation.
-- Edit your deployment scripts in `packages/snfoundry/script-ts/deploy.ts`
-- Edit your smart contract tests in `packages/snfoundry/contracts/src/test`. To run tests use `yarn test`
+We welcome contributions to Squad Goals!
 
-## Documentation (Coming Soon)
+Please see [CONTRIBUTING.MD](https://github.com/Quantum3-Labs/squad-goals/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Squad Goals.
 
-Visit our [docs](https://www.docs.scaffoldstark.com/) to learn how to start building with Scaffold-Stark 2.
-
-To know more about its features, check out our [website](https://scaffoldstark.com)
-
-## Contributing to Scaffold-Stark 2
-
-We welcome contributions to Scaffold-Stark 2!
-
-Please see [CONTRIBUTING.MD](https://github.com/Quantum3-Labs/scaffold-stark-2/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Scaffold-Stark 2.
