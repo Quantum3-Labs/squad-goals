@@ -8,7 +8,7 @@ import { InfoCard } from "~~/app/home/_components/InfoCard";
 import { getNFTMetadataFromIPFS } from "../../utils/ipfs";
 import { useScaffoldEventHistory } from "~~/hooks/scaffold-stark/useScaffoldEventHistory";
 import { formatEther } from "ethers";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
 const App: NextPage = () => {
   const [challenges, setChallenges] = useState<any[]>([]);
@@ -17,29 +17,31 @@ const App: NextPage = () => {
     console.log(e.target.value);
   };
 
-  const {data: events} = useScaffoldEventHistory({
+  const { data: events } = useScaffoldEventHistory({
     contractName: "YourContract",
     eventName: "contracts::YourContract::YourContract::ChallengeCreated",
     fromBlock: 0n,
   });
-   console.log(events)
-   useEffect(() => {
+  console.log(events);
+  useEffect(() => {
     const fetchChallenges = async () => {
       if (!events) return;
 
-      const challengesData = await Promise.all(events.map(async (event) => {
-        const cid = event.args.cid;
-        try {
-          const metadata = await getNFTMetadataFromIPFS(cid);
-          return {
-            ...metadata,
-            ...event.args, 
-          };
-        } catch (error) {
-          console.error(`Error fetching metadata for CID ${cid}:`, error);
-          return null;
-        }
-      }));
+      const challengesData = await Promise.all(
+        events.map(async (event) => {
+          const cid = event.args.cid;
+          try {
+            const metadata = await getNFTMetadataFromIPFS(cid);
+            return {
+              ...metadata,
+              ...event.args,
+            };
+          } catch (error) {
+            console.error(`Error fetching metadata for CID ${cid}:`, error);
+            return null;
+          }
+        }),
+      );
       setChallenges(challengesData.filter(Boolean));
     };
 
@@ -58,15 +60,15 @@ const App: NextPage = () => {
               <CategorySelect categories={categories} />
             </div>
             <div className="max-h-[1040px] overflow-y-auto flex flex-wrap justify-center gap-5 py-10">
-            {challenges.map((challenge, index) => (          
-                  <ChallengeCard
-                    image={challenge.image}
-                    id={challenge.id}
-                    key={index}
-                    title={challenge.name}
-                    description={challenge.description}
-                    stake={formatEther(challenge.stake_amount)}
-                  />              
+              {challenges.map((challenge, index) => (
+                <ChallengeCard
+                  image={challenge.image}
+                  id={challenge.id}
+                  key={index}
+                  title={challenge.name}
+                  description={challenge.description}
+                  stake={formatEther(challenge.stake_amount)}
+                />
               ))}
             </div>
           </div>
@@ -81,15 +83,15 @@ const App: NextPage = () => {
               <CategorySelect categories={categories} />
             </div>
             <div className="max-h-[1040px] overflow-y-auto flex flex-wrap justify-center gap-5 py-10">
-            {challenges.map((challenge, index) => (          
-                  <ChallengeCard
-                    image={challenge.image}
-                    id={challenge.id}
-                    key={index}
-                    title={challenge.name}
-                    description={challenge.description}
-                    stake={formatEther(challenge.stake_amount)}
-                  />              
+              {challenges.map((challenge, index) => (
+                <ChallengeCard
+                  image={challenge.image}
+                  id={challenge.id}
+                  key={index}
+                  title={challenge.name}
+                  description={challenge.description}
+                  stake={formatEther(challenge.stake_amount)}
+                />
               ))}
             </div>
           </div>

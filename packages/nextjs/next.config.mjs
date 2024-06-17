@@ -8,7 +8,7 @@ const nextConfig = {
     ignoreDuringBuilds: process.env.NEXT_PUBLIC_IGNORE_BUILD_ERROR === "true",
   },
   images: {
-    domains: ['ipfs.infura.io'],
+    domains: ["ipfs.infura.io"],
   },
   webpack: (config) => {
     config.resolve.fallback = { fs: false, net: false, tls: false };

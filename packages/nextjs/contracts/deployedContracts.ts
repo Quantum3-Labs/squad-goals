@@ -7,7 +7,7 @@ const deployedContracts = {
   devnet: {
     YourContract: {
       address:
-        "0x04a710280ef3f8283255a2bfd354942543166c9c1cc2b1151e14fa7d2aacc7c2",
+        "0x05527c2222cc713ffc05b9567b13556f6c455665a25c5251bd108bf97d854440",
       abi: [
         {
           type: "impl",
@@ -342,6 +342,48 @@ const deployedContracts = {
               type: "core::integer::u256",
               kind: "data",
             },
+            {
+              name: "stake_amount",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+            {
+              name: "cid",
+              type: "core::byte_array::ByteArray",
+              kind: "data",
+            },
+          ],
+        },
+        {
+          type: "event",
+          name: "contracts::YourContract::YourContract::ChallengeCompleted",
+          kind: "struct",
+          members: [
+            {
+              name: "id",
+              type: "core::integer::u256",
+              kind: "key",
+            },
+            {
+              name: "user",
+              type: "core::starknet::contract_address::ContractAddress",
+              kind: "data",
+            },
+            {
+              name: "stake_amount",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+            {
+              name: "time_completed",
+              type: "core::integer::u256",
+              kind: "data",
+            },
+            {
+              name: "cid",
+              type: "core::byte_array::ByteArray",
+              kind: "data",
+            },
           ],
         },
         {
@@ -362,6 +404,11 @@ const deployedContracts = {
             {
               name: "ChallengeJoined",
               type: "contracts::YourContract::YourContract::ChallengeJoined",
+              kind: "nested",
+            },
+            {
+              name: "ChallengeCompleted",
+              type: "contracts::YourContract::YourContract::ChallengeCompleted",
               kind: "nested",
             },
           ],

@@ -1,19 +1,58 @@
 "use client";
 import type { NextPage } from "next";
-import Image from "next/image";
-import SquadTable from "~~/app/challenges/_components/SquardTable";
-import { challenges, challengesItems } from "~~/data/data";
+import { challengesItems } from "~~/data/data";
 import ChallengeCard from "~~/app/home/_components/ChallengeCard";
 import Stats from "~~/app/profile/_components/Stats";
 import { CardItem } from "~~/app/profile/_components/CardItem";
 import { useAccount } from "@starknet-react/core";
-import { useScaffoldReadContract } from "~~/hooks/scaffold-stark/useScaffoldReadContract";
-import { uint256 } from "starknet";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useScaffoldEventHistory } from "~~/hooks/scaffold-stark/useScaffoldEventHistory";
+import { getNFTMetadataFromIPFS } from "~~/utils/ipfs";
 
-const profile: NextPage = () => {
+const Profile: NextPage = () => {
   const { address } = useAccount();
+
+  const [challenges, setChallenges] = useState<any[]>([]);
+  const [completedChallenges, setCompletedChallenges] = useState<any[]>([]);
+
+  const { data: chJoined } = useScaffoldEventHistory({
+    contractName: "YourContract",
+    eventName: "contracts::YourContract::YourContract::ChallengeJoined",
+    fromBlock: 0n,
+  });
+
+  const { data: chCompleted } = useScaffoldEventHistory({
+    contractName: "YourContract",
+    eventName: "contracts::YourContract::YourContract::ChallengeCompleted",
+    fromBlock: 0n,
+  });
+
+  useEffect(() => {
+    const fetchChallenges = async (chs: any[] | undefined) => {
+      if (!chs) return [];
+
+      return Promise.all(
+        chs.map(async (event) => {
+          const cid = event.args.cid;
+          console.log(cid);
+          try {
+            const metadata = await getNFTMetadataFromIPFS(cid);
+            console.log(metadata);
+            return {
+              ...metadata,
+              ...event.args,
+            };
+          } catch (error) {
+            console.error(`Error fetching metadata for CID ${cid}:`, error);
+            return null;
+          }
+        }),
+      );
+    };
+
+    fetchChallenges(chJoined).then((chs) => setChallenges(chs));
+    fetchChallenges(chCompleted).then((chs) => setCompletedChallenges(chs));
+  }, [chJoined, chCompleted]);
 
   return (
     <>
@@ -77,10 +116,11 @@ const profile: NextPage = () => {
                 {challenges.map((challenge, index) => (
                   <ChallengeCard
                     key={index}
+                    id={challenge.cid}
                     title={challenge.title}
                     description={challenge.description}
-                    stake={challenge.stake}
-                    image={challenge}
+                    stake={challenge.stake_amount}
+                    image={challenge.image}
                   />
                 ))}
               </div>
@@ -88,12 +128,14 @@ const profile: NextPage = () => {
             <div className="py-10">
               <span className="py-10 text-3xl">Completed Challenges</span>
               <div className="max-h-[500px] overflow-y-auto flex flex-wrap justify-center gap-5 py-10 w-full mt-10">
-                {challenges.map((challenge, index) => (
+                {completedChallenges.map((challenge, index) => (
                   <ChallengeCard
+                    id={challenge.cid}
                     key={index}
+                    image={challenge.image}
                     title={challenge.title}
                     description={challenge.description}
-                    stake={challenge.stake}
+                    stake={challenge.stake_amount}
                   />
                 ))}
               </div>
@@ -105,4 +147,4 @@ const profile: NextPage = () => {
   );
 };
 
-export default profile;
+export default Profile;

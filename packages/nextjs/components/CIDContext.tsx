@@ -1,5 +1,5 @@
-"use client"
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+"use client";
+import React, { createContext, useContext, useState, ReactNode } from "react";
 
 interface CIDContextType {
   uploadedCIDs: string[];
@@ -25,7 +25,7 @@ export const CIDProvider = ({ children }: { children: ReactNode }) => {
 export const useCID = () => {
   const context = useContext(CIDContext);
   if (context === undefined) {
-    throw new Error('useCID must be used within a CIDProvider');
+    throw new Error("useCID must be used within a CIDProvider");
   }
   return context;
 };

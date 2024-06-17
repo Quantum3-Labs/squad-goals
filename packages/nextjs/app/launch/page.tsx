@@ -6,13 +6,13 @@ import ImageUploadDropzone from "~~/app/launch/_components/ImageUpload";
 import { useScaffoldMultiWriteContract } from "~~/hooks/scaffold-stark/useScaffoldMultiWriteContract";
 import { useDeployedContractInfo } from "~~/hooks/scaffold-stark";
 import { multiplyTo1e18 } from "~~/utils/scaffold-stark/priceinWei";
-import { addToIPFS, uploadImage } from "~~/utils/ipfs-fetch";
+import { addToIPFS, readFileAsBase64 } from "~~/utils/ipfs-fetch";
 
 const Launch: NextPage = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [imageFile, setImageFile] = useState<File | null>(null);
-  const [uploadedCID, setUploadedCID] = useState<string | null>(null); 
+  const [uploadedCID, setUploadedCID] = useState<string | null>(null);
   const [Ethstake, setEthStake] = useState("");
   const [duration, setDuration] = useState(0);
   const { data: contractData } = useDeployedContractInfo("YourContract");
@@ -48,10 +48,11 @@ const Launch: NextPage = () => {
     setDuration(Number(e.target.value));
   };
 
-  const handleDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleDescriptionChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>,
+  ) => {
     setDescription(e.target.value);
   };
-
 
   const handleSubmit = async () => {
     if (!name || !description || !imageFile) {
@@ -60,23 +61,20 @@ const Launch: NextPage = () => {
     }
 
     try {
-      const addedImage = await uploadImage(imageFile);
-      
       const data = {
         name,
         description,
-        image: addedImage.path,
+        image: await readFileAsBase64(imageFile),
       };
-      
+
       const addedData = await addToIPFS(data);
-      
-      console.log('Data uploaded to IPFS:', addedData);
-      
-      alert(`Data uploaded to IPFS: https://ipfs.infura.io/ipfs/${addedData.path}`);
+
+      console.log("Data uploaded to IPFS:", addedData);
+
       setUploadedCID(addedData.path);
     } catch (error) {
-      console.error('Error uploading to IPFS:', error);
-      alert('Error uploading to IPFS');
+      console.error("Error uploading to IPFS:", error);
+      alert("Error uploading to IPFS");
     }
   };
 
@@ -86,7 +84,7 @@ const Launch: NextPage = () => {
         console.log("Challenge created");
       });
     }
-  }, [uploadedCID]);
+  }, [uploadedCID, createChallenge]);
 
   return (
     <>
@@ -130,7 +128,10 @@ const Launch: NextPage = () => {
               </div>
               <span className="text-xl">NFT Image</span>
               <ImageUploadDropzone onImageUpload={handleImageUpload} />
-              <button onClick={handleSubmit} className="mt-5 px-4 py-2 bg-blue-500 text-white rounded">
+              <button
+                onClick={handleSubmit}
+                className="mt-5 px-4 py-2 bg-blue-500 text-white rounded"
+              >
                 Submit
               </button>
             </div>

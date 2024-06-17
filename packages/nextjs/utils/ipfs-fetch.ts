@@ -29,20 +29,11 @@ export const getMetadataFromIPFS = (ipfsHash: string) =>
     body: { ipfsHash },
   });
 
-export async function uploadImage(imageFile: File) {
-  const imageData = await convertImageToJson(imageFile);
-  return addToIPFS(imageData);
-}
-
-async function convertImageToJson(imageFile: File) {
-  return { base64: await readFileAsBase64(imageFile) };
-}
-
-async function readFileAsBase64(file: File) {
+export async function readFileAsBase64(file: File) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
+    reader.onerror = (error) => reject(error);
     reader.readAsDataURL(file);
   });
 }

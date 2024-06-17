@@ -14,9 +14,7 @@ const ScaffoldStarkApp = ({ children }: { children: React.ReactNode }) => {
       <body>
         <ThemeProvider enableSystem>
           <ScaffoldStarkAppWithProviders>
-            <CIDProvider>
-            {children}
-            </CIDProvider>
+            <CIDProvider>{children}</CIDProvider>
           </ScaffoldStarkAppWithProviders>
         </ThemeProvider>
       </body>

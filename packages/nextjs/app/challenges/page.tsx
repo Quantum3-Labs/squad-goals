@@ -1,20 +1,15 @@
 "use client";
 import type { NextPage } from "next";
-import ChallengeInput from "~~/app/launch/_components/ChallengeInput";
-import ImageUpload from "~~/app/launch/_components/ImageUpload";
 import Image from "next/image";
 import SquadTable from "~~/app/challenges/_components/SquardTable";
-import { challenges } from "~~/data/data";
 import ChallengeCard from "~~/app/home/_components/ChallengeCard";
-import { useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { getNFTMetadataFromIPFS } from "../../utils/ipfs";
 import { useScaffoldEventHistory } from "~~/hooks/scaffold-stark/useScaffoldEventHistory";
 
-import { metadata } from "../layout";
 const Challenges: NextPage = () => {
-
   const [challenges, setChallenges] = useState<any[]>([]);
-
+  const [completedChallenges, setCompletedChallenges] = useState<any[]>([]);
 
   const participants = [
     {
@@ -59,38 +54,45 @@ const Challenges: NextPage = () => {
     },
   ];
 
-  const {data: events} = useScaffoldEventHistory({
+  const { data: events } = useScaffoldEventHistory({
     contractName: "YourContract",
     eventName: "contracts::YourContract::YourContract::ChallengeCreated",
     fromBlock: 0n,
   });
-   console.log(events)
-   useEffect(() => {
-    const fetchChallenges = async () => {
-      if (!events) return;
 
-      const challengesData = await Promise.all(events.map(async (event) => {
-        const cid = event.args.cid;
-        console.log(cid)
-        try {
-          const metadata = await getNFTMetadataFromIPFS(cid);
-          console.log(metadata)
-          return {
-            ...metadata,
-            ...event.args, 
-          };
-        } catch (error) {
-          console.error(`Error fetching metadata for CID ${cid}:`, error);
-          return null;
-        }
-      }));
-      setChallenges(challengesData.filter(Boolean));
+  const { data: chCompleted } = useScaffoldEventHistory({
+    contractName: "YourContract",
+    eventName: "contracts::YourContract::YourContract::ChallengeCompleted",
+    fromBlock: 0n,
+  });
+
+  useEffect(() => {
+    const fetchChallenges = async (chs: any[] | undefined) => {
+      if (!chs) return [];
+
+      return Promise.all(
+        chs.map(async (event) => {
+          const cid = event.args.cid;
+          console.log(cid);
+          try {
+            const metadata = await getNFTMetadataFromIPFS(cid);
+            console.log(metadata);
+            return {
+              ...metadata,
+              ...event.args,
+            };
+          } catch (error) {
+            console.error(`Error fetching metadata for CID ${cid}:`, error);
+            return null;
+          }
+        }),
+      );
     };
 
-    fetchChallenges();
-  }, [events]);
+    fetchChallenges(events).then((chs) => setChallenges(chs));
+    fetchChallenges(chCompleted).then((chs) => setCompletedChallenges(chs));
+  }, [events, chCompleted]);
 
-console.log(challenges)
   return (
     <>
       <div className="flex items-center w-full flex-col">
@@ -136,35 +138,35 @@ console.log(challenges)
             <div className="py-10">
               <span className="py-10">Open Challenges</span>
               <div className="max-h-[500px] overflow-y-auto flex flex-wrap justify-center gap-5 py-10 w-full mt-10">
-              {challenges.map((challenge, index) => {
-                return(
-                  (      
-                    <ChallengeCard
-                      image={challenge}
-                      id= {challenge.id}
-                      key={index}
-                      title={challenge.name}
-                      description={challenge.description}
-                      stake={challenge.stake_amount}
-                    />       
-                ))}
-                )
-              }
+                {challenges
+                  .filter((ch) => !completedChallenges.includes(ch.cid))
+                  .map((challenge, index) => {
+                    return (
+                      <ChallengeCard
+                        image={challenge.image}
+                        id={challenge.id}
+                        key={index}
+                        title={challenge.name}
+                        description={challenge.description}
+                        stake={challenge.stake_amount}
+                      />
+                    );
+                  })}
               </div>
             </div>
             <div className="py-10">
               <span className="py-10">Completed Challenges</span>
               <div className="max-h-[500px] overflow-y-auto flex flex-wrap justify-center gap-5 py-10 w-full mt-10">
-              {challenges.map((challenge, index) => (          
+                {completedChallenges.map((challenge, index) => (
                   <ChallengeCard
                     image={challenge}
-                    id= {challenge.id}
+                    id={challenge.id}
                     key={index}
                     title={challenge.name}
                     description={challenge.description}
                     stake={challenge.stake_amount}
-                  />              
-              ))}
+                  />
+                ))}
               </div>
             </div>
           </div>
