@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 import Image from "next/image";
-import { useScaffoldMultiWriteContract } from "~~/hooks/scaffold-stark/useScaffoldMultiWriteContract";
-import { useDeployedContractInfo } from "~~/hooks/scaffold-stark";
 import { formatEther } from "ethers";
 import JoinChallenge from "~~/components/JoinChallenge";
 
@@ -12,7 +10,13 @@ interface ChallengeCardProps {
   stake: string;
   image: string;
   id: number;
-  setCurrentCh: (challenge: any) => void; // Added to handle setting the current challenge
+  setCurrentCh?: (challenge: {
+    image: string;
+    id: number;
+    title: string;
+    description: string;
+    stake: string;
+  }) => void;
 }
 
 const ChallengeCard: React.FC<ChallengeCardProps> = ({
@@ -24,7 +28,9 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
   setCurrentCh, // Added to props
 }) => {
   const handleSetCurrentCh = () => {
-    setCurrentCh({ title, description, stake, image, id });
+    if (setCurrentCh) {
+      setCurrentCh({ title, description, stake, image, id });
+    }
   };
 
   return (

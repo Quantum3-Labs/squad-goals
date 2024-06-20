@@ -22,7 +22,7 @@ const App: NextPage = () => {
     eventName: "contracts::YourContract::YourContract::ChallengeCreated",
     fromBlock: 0n,
   });
-  
+
   useEffect(() => {
     const fetchChallenges = async () => {
       if (!events) return;
