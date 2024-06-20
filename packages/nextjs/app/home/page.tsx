@@ -7,10 +7,11 @@ import { SearchBar } from "~~/app/home/_components/SearchBar";
 import { InfoCard } from "~~/app/home/_components/InfoCard";
 import { getNFTMetadataFromIPFS } from "../../utils/ipfs";
 import { useScaffoldEventHistory } from "~~/hooks/scaffold-stark/useScaffoldEventHistory";
-import { formatEther } from "ethers";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const App: NextPage = () => {
+  const navigate = useRouter();
   const [challenges, setChallenges] = useState<any[]>([]);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,6 +69,7 @@ const App: NextPage = () => {
                   title={challenge.name}
                   description={challenge.description}
                   stake={challenge.stake_amount}
+                  onDetails={() => navigate.push(`/challenges`)}
                 />
               ))}
             </div>

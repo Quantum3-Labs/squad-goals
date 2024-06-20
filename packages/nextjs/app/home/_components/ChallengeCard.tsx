@@ -10,6 +10,7 @@ interface ChallengeCardProps {
   stake: string;
   image: string;
   id: number;
+  onDetails?: () => void;
   setCurrentCh?: (challenge: {
     image: string;
     id: number;
@@ -25,11 +26,16 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({
   stake,
   image,
   id,
+  onDetails,
   setCurrentCh, // Added to props
 }) => {
   const handleSetCurrentCh = () => {
     if (setCurrentCh) {
       setCurrentCh({ title, description, stake, image, id });
+    }
+
+    if (onDetails) {
+      onDetails();
     }
   };
 
