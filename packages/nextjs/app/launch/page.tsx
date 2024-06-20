@@ -7,6 +7,7 @@ import { useScaffoldMultiWriteContract } from "~~/hooks/scaffold-stark/useScaffo
 import { useDeployedContractInfo } from "~~/hooks/scaffold-stark";
 import { multiplyTo1e18 } from "~~/utils/scaffold-stark/priceinWei";
 import { addToIPFS, readFileAsBase64 } from "~~/utils/ipfs-fetch";
+import { useRouter } from "next/navigation";
 
 const Launch: NextPage = () => {
   const [name, setName] = useState("");
@@ -16,6 +17,7 @@ const Launch: NextPage = () => {
   const [Ethstake, setEthStake] = useState("");
   const [duration, setDuration] = useState(0);
   const { data: contractData } = useDeployedContractInfo("YourContract");
+  const navigate = useRouter();
 
   const { writeAsync: createChallenge } = useScaffoldMultiWriteContract({
     calls: [
@@ -82,9 +84,11 @@ const Launch: NextPage = () => {
     if (uploadedCID) {
       createChallenge().then(() => {
         console.log("Challenge created");
+        navigate.push(`/challenges`);
       });
     }
-  }, [uploadedCID, createChallenge]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uploadedCID]);
 
   return (
     <>
